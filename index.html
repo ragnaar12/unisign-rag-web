@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Prediction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f4f4f4;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Prediction</h1>
+    <form id="predictionForm">
+      <label for="inputData">Enter Input Data:</label>
+      <input type="text" id="inputData" name="inputData" required>
+      <button type="submit">Get Prediction</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('predictionForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const inputData = document.getElementById('inputData').value;
+
+      try {
+        const response = await fetch('/predict', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ input: inputData }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch prediction');
+        }
+
+        const data = await response.json();
+        resultDiv.textContent = `Prediction: ${data.prediction}`;
+      } catch (error) {
+        resultDiv.textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
