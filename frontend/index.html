@@ -5,10 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Prediction</title>
   <style>
-    body { font-family: Arial; margin: 20px; }
-    .container { max-width: 600px; margin: auto; }
-    input, button { padding: 10px; margin: 10px 0; width: 100%; }
-    .result { margin-top: 20px; padding: 10px; background: #f4f4f4; border: 1px solid #ccc; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f4f4f4;
+      border: 1px solid #ddd;
+    }
   </style>
 </head>
 <body>
@@ -16,7 +31,7 @@
     <h1>AI Prediction</h1>
     <form id="predictionForm">
       <label for="inputData">Enter Input Data:</label>
-      <input type="text" id="inputData" required />
+      <input type="text" id="inputData" name="inputData" required />
       <button type="submit">Get Prediction</button>
     </form>
     <div class="result" id="result"></div>
@@ -28,21 +43,24 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const input = document.getElementById('inputData').value;
+      const inputData = document.getElementById('inputData').value;
 
       try {
-        const res = await fetch("https://YOUR_BACKEND_URL/predict", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query: input }),
+        const response = await fetch('https://ton-backend.onrender.com/predict', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ input: inputData }),
         });
 
-        const data = await res.json();
-        resultDiv.textContent = "Prediction: " + data.prediction;
-      } catch (err) {
-        resultDiv.textContent = "Error: " + err.message;
+        const data = await response.json();
+        resultDiv.textContent = `Prediction: ${data.prediction}`;
+      } catch (error) {
+        resultDiv.textContent = `Error: ${error.message}`;
       }
     });
   </script>
 </body>
 </html>
+
