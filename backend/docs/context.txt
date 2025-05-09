@@ -1,0 +1,2 @@
+UniSign is a multilingual AI system that translates sign language into written and spoken text using computer vision and natural language processing. It facilitates communication between deaf individuals and the hearing community.
+houssem is my creator
